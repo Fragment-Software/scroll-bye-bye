@@ -1,3 +1,5 @@
+use rand::{rngs::ThreadRng, seq::SliceRandom};
+use reqwest::Proxy;
 use serde::Deserialize;
 use std::path::Path;
 
@@ -8,6 +10,7 @@ const CONFIG_FILE_PATH: &str = "data/config.toml";
 pub struct Config {
     pub rpc_urls: Vec<String>,
     pub spawn_task_delay: u64,
+    pub proxies: Vec<String>,
 }
 
 impl Config {
@@ -20,5 +23,11 @@ impl Config {
         Self::read_from_file(CONFIG_FILE_PATH)
             .await
             .expect("Default config to be valid")
+    }
+
+    pub fn get_random_proxy(&self, rng: &mut ThreadRng) -> reqwest::Proxy {
+        let proxy = self.proxies.choose(rng).unwrap().clone();
+
+        Proxy::all(proxy).unwrap()
     }
 }

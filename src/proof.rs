@@ -86,7 +86,7 @@ pub async fn send_http_request_with_retries(
     eyre::bail!("Amount of tries exceeded")
 }
 
-pub async fn get_proof(address: Address) -> eyre::Result<String> {
+pub async fn get_proof(address: Address, proxy: reqwest::Proxy) -> eyre::Result<String> {
     tracing::info!("Getting proof and allocation for {address}");
 
     let headers = get_headers();
@@ -104,7 +104,8 @@ pub async fn get_proof(address: Address) -> eyre::Result<String> {
     };
 
     let response =
-        send_http_request_with_retries(&request_params, Some(&headers), None, None, None).await?;
+        send_http_request_with_retries(&request_params, Some(&headers), Some(&proxy), None, None)
+            .await?;
 
     Ok(response)
 }

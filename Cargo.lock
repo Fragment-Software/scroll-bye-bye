@@ -934,44 +934,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "captcha_oxide"
-version = "6.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1dbd7fd6fb451cf36842ad59b2b8342e41c9c11965c5d191b92066be596c06df"
-dependencies = [
- "captcha_oxide_macros",
- "chrono",
- "lazy_static",
- "reqwest",
- "serde",
- "serde_json",
- "serde_repr",
- "thiserror",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "captcha_oxide_core"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc6a86c1dddbeeaee43c4a28566974571f8bb8d2a77ff372ca453c60bceb65e4"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.82",
-]
-
-[[package]]
-name = "captcha_oxide_macros"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20e408996f7fb94f7b92b45bc8b41d06c595aca7a1f2693988ebffaa4358090d"
-dependencies = [
- "captcha_oxide_core",
-]
-
-[[package]]
 name = "cc"
 version = "1.1.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -985,16 +947,6 @@ name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-
-[[package]]
-name = "chrono"
-version = "0.4.38"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a21f936df1771bf62b77f047b726c4625ff2e8aa607c01ec06e5a05bd8463401"
-dependencies = [
- "num-traits",
- "serde",
-]
 
 [[package]]
 name = "const-hex"
@@ -2579,7 +2531,6 @@ version = "0.1.0"
 dependencies = [
  "alloy",
  "alloy-chains",
- "captcha_oxide",
  "eyre",
  "rand",
  "reqwest",
@@ -2689,17 +2640,6 @@ dependencies = [
  "memchr",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "serde_repr"
-version = "0.1.19"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c64451ba24fc7a6a2d60fc75dd9c83c90903b19028d4eff35e88fc1e86564e9"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.82",
 ]
 
 [[package]]
@@ -3375,7 +3315,6 @@ dependencies = [
  "form_urlencoded",
  "idna",
  "percent-encoding",
- "serde",
 ]
 
 [[package]]

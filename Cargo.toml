@@ -6,7 +6,6 @@ edition = "2021"
 [dependencies]
 alloy = { version = "0.4.2", features = ["full"] }
 alloy-chains = "0.1.40"
-captcha_oxide = "6.0.0"
 eyre = "0.6.12"
 rand = "0.8.5"
 reqwest = { version = "0.12.8", features = ["json"] }

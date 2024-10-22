@@ -174,6 +174,7 @@ pub async fn claim_and_transfer<P, T, W>(
     wallet: Arc<W>,
     provider: Arc<P>,
     recipient: Address,
+    proxy: reqwest::Proxy,
 ) -> eyre::Result<()>
 where
     P: Provider<T, Ethereum>,
@@ -193,7 +194,7 @@ where
     let allocation = match has_claimed {
         true => get_token_balance(provider.clone(), wallet_address, TOKEN_CONTRACT_ADDRESS).await?,
         false => {
-            let response = get_proof(wallet_address).await?; // TODO: request proof and allocation from the API
+            let response = get_proof(wallet_address, proxy).await?; // TODO: request proof and allocation from the API
             let (proof, allocation) = extract_proof_and_amount(&response)?;
             claim(provider.clone(), wallet.clone(), allocation, proof).await?;
 
@@ -242,15 +243,17 @@ pub async fn claim_for_all(config: Config) {
     for (wallet, recipient) in wallets.into_iter().zip(recipients.into_iter()) {
         tokio::time::sleep(Duration::from_millis(config.spawn_task_delay)).await;
         let provider = providers.choose(&mut rng).unwrap().clone();
+        let proxy = config.get_random_proxy(&mut rng);
 
         handles.spawn(async move {
-            let task_result = claim_and_transfer(wallet.clone(), provider, recipient).await;
-            (wallet, recipient, task_result)
+            let task_result =
+                claim_and_transfer(wallet.clone(), provider, recipient, proxy.clone()).await;
+            (wallet, recipient, proxy, task_result)
         });
     }
 
     while let Some(res) = handles.join_next().await {
-        let (wallet, recipient, task_result) = res.unwrap();
+        let (wallet, recipient, proxy, task_result) = res.unwrap();
         let address =
             <Arc<EthereumWallet> as NetworkWallet<Ethereum>>::default_signer_address(&wallet);
 
@@ -261,8 +264,10 @@ pub async fn claim_for_all(config: Config) {
                 let provider = providers.choose(&mut rng).unwrap().clone();
 
                 handles.spawn(async move {
-                    let task_result = claim_and_transfer(wallet.clone(), provider, recipient).await;
-                    (wallet, recipient, task_result)
+                    let task_result =
+                        claim_and_transfer(wallet.clone(), provider, recipient, proxy.clone())
+                            .await;
+                    (wallet, recipient, proxy, task_result)
                 });
             }
         }

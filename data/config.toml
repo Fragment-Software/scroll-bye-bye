@@ -1,2 +1,3 @@
-RPC_URLS = ["", ""]    # RPCs LIST
-SPAWN_TASK_DELAY = 100 # ! millis ! delay before spawning a new thread
+RPC_URLS = ["", ""]     # RPCs LIST
+SPAWN_TASK_DELAY = 4000 # ! millis ! delay before spawning a new thread
+PROXIES = ["", ""]

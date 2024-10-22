@@ -1,0 +1,2 @@
+RPC_URLS = ["", ""]    # RPCs LIST
+SPAWN_TASK_DELAY = 100 # ! millis ! delay before spawning a new thread
